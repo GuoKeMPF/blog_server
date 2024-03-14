@@ -1,0 +1,19 @@
+# Django .gitignore 文件建议内容
+
+### Python 编译缓存及临时文件
+__pycache__/
+*.py[cod]
+
+### Django 迁移文件
+*/migrations/*
+
+### Django 缓存文件
+cache/
+
+### Django 的类型检查相关文件
+.dmypy.json
+.pyre/
+
+
+# 数据库
+*.sqlite3
