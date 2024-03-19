@@ -4,9 +4,6 @@
 __pycache__/
 *.py[cod]
 
-### Django 迁移文件
-*/migrations/*
-
 ### Django 缓存文件
 cache/
 
