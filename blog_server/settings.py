@@ -24,8 +24,13 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = ast.literal_eval(env("DEBUG"))
 SESSION_COOKIE_SECURE = ast.literal_eval(env("SESSION_COOKIE_SECURE"))
 # ALLOWED_HOSTS = ast.literal_eval(env("ALLOWED_HOSTS"))
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]',
-                 'api.mapanfeng.com', 'admin.mapanfeng.com']
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "[::1]",
+    "api.mapanfeng.com",
+    "admin.mapanfeng.com",
+]
 DOMAIN = env("DOMAIN")
 STATIC_DOAMIN = env("STATIC_DOAMIN")
 IMAGE_PATH = env("IMAGE_PATH")
@@ -54,7 +59,7 @@ INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "user.apps.UserConfig",
     "draft.apps.DraftConfig",
-    "text.apps.TextConfig",
+    "post.apps.PostConfig",
     "picture.apps.PictureConfig",
     "audio.apps.AudioConfig",
 ]
@@ -178,7 +183,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
-    ]
+    ],
 }
 
 SIMPLE_JWT = {
