@@ -9,6 +9,7 @@ class Picture(models.Model):
         max_length=255, help_text='description', null=True, blank=True)
     name = models.CharField(max_length=255, help_text='name')
     unique_name = models.CharField(max_length=255, help_text='unique name')
+    views = models.IntegerField(default=0, verbose_name="views")
     create_time = models.DateTimeField(
         auto_now_add=True, verbose_name='create time')
     update_time = models.DateTimeField(auto_now=True, verbose_name='update at')
