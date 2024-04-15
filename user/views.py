@@ -1,4 +1,3 @@
-
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,48 +6,59 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login, logout
 from django.middleware.csrf import get_token
 from utils.cryptography.decrypt import decrypt
-
 from django.conf import settings
-from utils.token.getUserToken import get_tokens_for_user
 
 # Create your views here.
+cookieConfig = {
+    "domain": "localhost",
+    "secure": True,
+    "httponly": True,
+    "samesite": "lax",
+}
 
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(csrf_exempt, name="dispatch")
 class LoginView(View):
     def post(sele, request):
         # json
         body = json.loads(request.body)
-        username = body.get('username')
-        password = body.get('password')
-        realname = decrypt(username)
-        realpwd = decrypt(password)
-        user = authenticate(username=realname, password=realpwd)
+        username = body.get("username")
+        password = body.get("password")
+        realName = decrypt(username)
+        realPwd = decrypt(password)
+        user = authenticate(username=realName, password=realPwd)
         if user is not None:
             if user.is_active:
                 csrftoken = get_token(request)
-                access = get_tokens_for_user(user)
-                refresh = access.get('refresh')
-                token = access.get('token')
                 HEADER_AUTH_PREFIX = settings.JWT_AUTH_HEADER_PREFIX
-                return JsonResponse({
-                    "username": user.get_username(),
-                    "message": "login success",
-                    "refresh": refresh,
-                    "token": HEADER_AUTH_PREFIX + ' '+token,
-                    "csrftoken": csrftoken
-                })
+                login(request, user)
+                response = JsonResponse(
+                    {
+                        "username": user.get_username(),
+                        "message": "login success",
+                        "csrftoken": csrftoken,
+                    }
+                )
+                response.set_cookie(
+                    key="X-Csrftoken",
+                    value=csrftoken,
+                    secure=cookieConfig.get("secure"),
+                    httponly=cookieConfig.get("httponly"),
+                    samesite=cookieConfig.get("samesite"),
+                )
+                return response
             else:
                 return JsonResponse(
-                    {"message": "Error username or password"}, status=500)
+                    {"message": "Error user name or password"}, status=500
+                )
         else:
-            return JsonResponse({"message": "Error username or password"}, status=500)
+            return JsonResponse({"message": "Error user name or password"}, status=500)
 
     def dispatch(self, request, *args, **kwargs):
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(csrf_exempt, name="dispatch")
 class LogoutView(View):
     def post(self, request):
         res = logout(request)

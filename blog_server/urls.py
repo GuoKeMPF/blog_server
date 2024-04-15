@@ -41,7 +41,7 @@ urlpatterns = [
     ),
     # 文章
     re_path(
-        r"^post/?$", PostViewSet.as_view({"get": "list", "post": "create"}), name="text"
+        r"^post/?$", PostViewSet.as_view({"get": "list", "post": "create"}), name="post"
     ),
     re_path(
         r"^post/(?P<pk>\w+)/?$",
@@ -53,7 +53,7 @@ urlpatterns = [
                 "delete": "destroy",
             }
         ),
-        name="text",
+        name="post",
     ),
     # 图片
     re_path(

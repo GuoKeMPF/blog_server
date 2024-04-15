@@ -23,14 +23,14 @@ environ.Env.read_env(file_path)
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = ast.literal_eval(env("DEBUG"))
 SESSION_COOKIE_SECURE = ast.literal_eval(env("SESSION_COOKIE_SECURE"))
-# ALLOWED_HOSTS = ast.literal_eval(env("ALLOWED_HOSTS"))
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "[::1]",
-    "api.mapanfeng.com",
-    "admin.mapanfeng.com",
-]
+ALLOWED_HOSTS = ast.literal_eval(env("ALLOWED_HOSTS"))
+# ALLOWED_HOSTS = [
+#     "localhost",
+#     "127.0.0.1",
+#     "[::1]",
+#     "api.mapanfeng.com",
+#     "admin.mapanfeng.com",
+# ]
 DOMAIN = env("DOMAIN")
 STATIC_DOMAIN = env("STATIC_DOMAIN")
 IMAGE_PATH = env("IMAGE_PATH")
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    "middleware.TokenAuthenticationMiddleware",
     "home.apps.HomeConfig",
     "user.apps.UserConfig",
     "draft.apps.DraftConfig",
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    # "middleware.TokenAuthenticationMiddleware.TokenAuthenticationMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -180,7 +182,6 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ],
