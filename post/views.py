@@ -2,9 +2,7 @@
 
 
 from rest_framework.viewsets import ModelViewSet
-
-from rest_framework.response import Response
-
+from django.http import JsonResponse
 from .models import Post
 
 from .serializers import PostSerializer, PostsSerializer
@@ -26,4 +24,4 @@ class PostViewSet(ModelViewSet):
         post.views += 1
         post.save()
         serializer = self.get_serializer(post)
-        return Response(serializer.data)
+        return JsonResponse(serializer.data)

@@ -62,10 +62,10 @@ urlpatterns = [
         name="picture",
     ),
     re_path(
-        r"^pictures/?$", PictureViewSet.as_view({"post": "uploads"}), name="picture"
+        r"^pictures/?$", PictureViewSet.as_view({"post": "uploads"}), name="pictures"
     ),
     re_path(
-        r"^picture/(?P<id>\w+)/?$",
+        r"^picture/(?P<pk>\w+)/?$",
         PictureViewSet.as_view({"get": "retrieve", "delete": "destroy"}),
         name="picture",
     ),
@@ -77,7 +77,7 @@ urlpatterns = [
     ),
     re_path(r"^audios/?$", AudioViewSet.as_view({"post": "uploads"}), name="audio"),
     re_path(
-        r"^audio/(?P<id>\w+)/?$",
+        r"^audio/(?P<pk>\w+)/?$",
         AudioViewSet.as_view({"get": "retrieve", "delete": "destroy"}),
         name="audio",
     ),

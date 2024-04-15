@@ -53,12 +53,12 @@ class PictureViewSet(ModelViewSet):
         picture.views += 1
         picture.save()
         serializer = self.get_serializer(picture)
-        return Response(serializer.data)
+        return JsonResponse(serializer.data)
 
     def uploads(self, request, *args, **kwargs):
         files = request.FILES.getlist("file")
         description = request.POST.get("description", "")
-        loactions = []
+        locations = []
         for f in files:
             imageInfo = saveImage(f)
             picture = Picture(
@@ -70,5 +70,5 @@ class PictureViewSet(ModelViewSet):
                 description=description,
             )
             picture.save()
-            loactions.append(imageInfo)
-        return JsonResponse(loactions, safe=False)
+            locations.append(imageInfo)
+        return JsonResponse(locations, safe=False)
