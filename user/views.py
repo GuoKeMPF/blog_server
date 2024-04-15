@@ -29,9 +29,8 @@ class LoginView(View):
         user = authenticate(username=realName, password=realPwd)
         if user is not None:
             if user.is_active:
-                csrftoken = get_token(request)
-                HEADER_AUTH_PREFIX = settings.JWT_AUTH_HEADER_PREFIX
                 login(request, user)
+                csrftoken = get_token(request)
                 response = JsonResponse(
                     {
                         "username": user.get_username(),

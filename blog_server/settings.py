@@ -24,6 +24,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = ast.literal_eval(env("DEBUG"))
 SESSION_COOKIE_SECURE = ast.literal_eval(env("SESSION_COOKIE_SECURE"))
 ALLOWED_HOSTS = ast.literal_eval(env("ALLOWED_HOSTS"))
+CSRF_TRUSTED_ORIGINS = ast.literal_eval(env("CSRF_TRUSTED_ORIGINS"))
 # ALLOWED_HOSTS = [
 #     "localhost",
 #     "127.0.0.1",
@@ -31,6 +32,9 @@ ALLOWED_HOSTS = ast.literal_eval(env("ALLOWED_HOSTS"))
 #     "api.mapanfeng.com",
 #     "admin.mapanfeng.com",
 # ]
+
+CORS_ORIGIN_WHITELIST = ast.literal_eval(env("ALLOWED_HOSTS"))
+
 DOMAIN = env("DOMAIN")
 STATIC_DOMAIN = env("STATIC_DOMAIN")
 IMAGE_PATH = env("IMAGE_PATH")
