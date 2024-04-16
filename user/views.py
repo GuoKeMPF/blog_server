@@ -7,14 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.middleware.csrf import get_token
 from utils.cryptography.decrypt import decrypt
 from django.conf import settings
-
-# Create your views here.
-cookieConfig = {
-    "domain": "localhost",
-    "secure": True,
-    "httponly": True,
-    "samesite": "lax",
-}
+from django.contrib.auth.models import AnonymousUser
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -38,13 +31,6 @@ class LoginView(View):
                         "csrftoken": csrftoken,
                     }
                 )
-                response.set_cookie(
-                    key="X-Csrftoken",
-                    value=csrftoken,
-                    secure=cookieConfig.get("secure"),
-                    httponly=cookieConfig.get("httponly"),
-                    samesite=cookieConfig.get("samesite"),
-                )
                 return response
             else:
                 return JsonResponse(
@@ -61,10 +47,14 @@ class LoginView(View):
 class LogoutView(View):
     def post(self, request):
         res = logout(request)
-        if res:
-            return JsonResponse({"data": "logout success"}, status=200)
+        if isinstance(request.user, AnonymousUser):
+            response = JsonResponse({"message": "logout success"}, status=200)
+            response.delete_cookie(key="csrftoken")
+            response.delete_cookie(key="sessionid")
+            return response
         else:
-            return JsonResponse({"message": "logout failed"}, status=500)
+            response = JsonResponse({"message": "logout failed"}, status=500)
+            return response
 
     def dispatch(self, *args, **kwargs):
         return super(LogoutView, self).dispatch(*args, **kwargs)
