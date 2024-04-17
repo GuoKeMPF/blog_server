@@ -39,7 +39,6 @@ DOMAIN = env("DOMAIN")
 STATIC_DOMAIN = env("STATIC_DOMAIN")
 IMAGE_PATH = env("IMAGE_PATH")
 AUDIO_PATH = env("AUDIO_PATH")
-JWT_AUTH_HEADER_PREFIX = env("JWT_AUTH_HEADER_PREFIX")
 CORS_ALLOWED_ORIGIN_REGEXES = [r"^https?:\/\/([a-zA-Z\.]?)+(mapanfeng\.com)"]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -58,7 +57,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "rest_framework_simplejwt",
     "django_filters",
     "middleware.TokenAuthenticationMiddleware",
     "home.apps.HomeConfig",
@@ -81,6 +79,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
+AUTHENTICATION_BACKENDS = [
+    "utils.backends.EmailOrUsernameModelBackend",
+    # "django.contrib.auth.backends.ModelBackend",  # 如果您希望继续使用Django默认的身份验证后端，请包含此行
+]
 
 ROOT_URLCONF = "blog_server.urls"
 
@@ -191,7 +194,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(days=7),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=10),
-}
+
+# 60 * 60 * 24 * 7
+SESSION_COOKIE_AGE = 604800

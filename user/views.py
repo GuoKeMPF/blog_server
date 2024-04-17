@@ -15,9 +15,9 @@ class LoginView(View):
     def post(sele, request):
         # json
         body = json.loads(request.body)
-        username = body.get("username")
+        account = body.get("account")
         password = body.get("password")
-        realName = decrypt(username)
+        realName = decrypt(account)
         realPwd = decrypt(password)
         user = authenticate(username=realName, password=realPwd)
         if user is not None:
