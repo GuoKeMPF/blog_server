@@ -18,7 +18,7 @@ class DashboardView(ModelViewSet):
         return JsonResponse(
             {
                 "draft": draft_count,
-                "Post": post_count,
+                "post": post_count,
                 "picture": picture_count,
                 "audio": audio_count,
             },
