@@ -12,7 +12,7 @@ def saveAudio(f):
     dirPath = os.path.join(baseDir, audio_path)
     if not os.path.isdir(dirPath):
         os.makedirs(dirPath)
-    unique_name = time.strftime("%Y-%m-%d %H:%M:%S") + f.name
+    unique_name = time.strftime("%Y-%m-%d-%H-%M-%S") + f.name
     path = os.path.join(audio_path, unique_name)
     audioDir = os.path.join(baseDir, path)
     print(audioDir)

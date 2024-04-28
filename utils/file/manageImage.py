@@ -11,7 +11,7 @@ def saveImage(f):
     dirPath = os.path.join(baseDir, image_path)
     if not os.path.isdir(dirPath):
         os.makedirs(dirPath)
-    unique_name = time.strftime("%Y-%m-%d %H-%M-%S") + f.name
+    unique_name = time.strftime("%Y-%m-%d-%H-%M-%S") + f.name
     path = os.path.join(image_path, unique_name)
     pictureDir = os.path.join(baseDir, path)
     print(pictureDir)
