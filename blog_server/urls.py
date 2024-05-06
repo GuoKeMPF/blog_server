@@ -77,7 +77,7 @@ urlpatterns = [
     ),
     re_path(r"^audios/?$", AudioViewSet.as_view({"post": "uploads"}), name="audio"),
     re_path(
-        r"^audio/(?P<pk>\w+)/?$",
+        r"^audio/(?P<id>\w+)/?$",
         AudioViewSet.as_view({"get": "retrieve", "delete": "destroy"}),
         name="audio",
     ),
