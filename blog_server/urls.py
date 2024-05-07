@@ -8,7 +8,7 @@ from post.views import PostViewSet
 
 from picture.views import PictureViewSet
 from audio.views import AudioViewSet
-from user.views import LoginView, LogoutView
+from user.views import LoginView, LogoutView, GetUserInfoView
 from dashboard.views import DashboardView
 
 
@@ -17,6 +17,7 @@ urlpatterns = [
     re_path(r"^/?$", HomeView.as_view(), name="home"),
     re_path(r"^login/?$", LoginView.as_view(), name="login"),
     re_path(r"^logout/?$", LogoutView.as_view(), name="logout"),
+    re_path(r"^user/?$", GetUserInfoView.as_view(), name="get user"),
     # 看板
     re_path(
         r"^dashboard/?$", DashboardView.as_view({"get": "retrieve"}), name="dashboard"
