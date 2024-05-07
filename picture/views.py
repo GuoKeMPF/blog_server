@@ -32,7 +32,7 @@ class PictureViewSet(ModelViewSet):
         return JsonResponse(imageInfo, safe=False, status=200)
 
     def destroy(self, request, *args, **kwargs):
-        id = kwargs.get("id")
+        id = kwargs.get("pk")
         picture = Picture.objects.get(id=id)
         if picture is None:
             return JsonResponse(
