@@ -8,7 +8,7 @@ from post.views import PostViewSet
 
 from picture.views import PictureViewSet
 from audio.views import AudioViewSet
-from user.views import LoginView, LogoutView
+from user.views import LoginView, LogoutView, GetUserInfoView
 from dashboard.views import DashboardView
 
 
@@ -17,6 +17,7 @@ urlpatterns = [
     re_path(r"^/?$", HomeView.as_view(), name="home"),
     re_path(r"^login/?$", LoginView.as_view(), name="login"),
     re_path(r"^logout/?$", LogoutView.as_view(), name="logout"),
+    re_path(r"^user/?$", GetUserInfoView.as_view(), name="get user"),
     # 看板
     re_path(
         r"^dashboard/?$", DashboardView.as_view({"get": "retrieve"}), name="dashboard"
@@ -41,7 +42,7 @@ urlpatterns = [
     ),
     # 文章
     re_path(
-        r"^post/?$", PostViewSet.as_view({"get": "list", "post": "create"}), name="text"
+        r"^post/?$", PostViewSet.as_view({"get": "list", "post": "create"}), name="post"
     ),
     re_path(
         r"^post/(?P<pk>\w+)/?$",
@@ -53,7 +54,7 @@ urlpatterns = [
                 "delete": "destroy",
             }
         ),
-        name="text",
+        name="post",
     ),
     # 图片
     re_path(
@@ -62,10 +63,10 @@ urlpatterns = [
         name="picture",
     ),
     re_path(
-        r"^pictures/?$", PictureViewSet.as_view({"post": "uploads"}), name="picture"
+        r"^pictures/?$", PictureViewSet.as_view({"post": "uploads"}), name="pictures"
     ),
     re_path(
-        r"^picture/(?P<id>\w+)/?$",
+        r"^picture/(?P<pk>\w+)/?$",
         PictureViewSet.as_view({"get": "retrieve", "delete": "destroy"}),
         name="picture",
     ),

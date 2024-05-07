@@ -1,33 +1,32 @@
-
 import os
 import time
 from PIL import Image
-
 from django.conf import settings
 
 
 def saveImage(f):
-    static_doamin = settings.STATIC_DOAMIN
+    static_domain = settings.STATIC_DOMAIN
     image_path = settings.IMAGE_PATH
-
     baseDir = os.path.dirname(os.path.abspath(__name__))
-    if not os.path.isdir(os.path.join(baseDir, image_path)):
-        os.makedirs(os.path.join(baseDir, image_path))
-    unique_name = time.strftime('%Y-%m-%d %H:%M:%S') + f.name 
+    dirPath = os.path.join(baseDir, image_path)
+    if not os.path.isdir(dirPath):
+        os.makedirs(dirPath)
+    unique_name = time.strftime("%Y-%m-%d-%H-%M-%S") + f.name
     path = os.path.join(image_path, unique_name)
-    jpgdir = os.path.join(baseDir, path)
-    loaction = static_doamin + '/' + image_path + '/' + unique_name
-    fobj = open(jpgdir, 'wb')
-    for chrunk in f.chunks():
-        fobj.write(chrunk)
-    fobj.close()
+    pictureDir = os.path.join(baseDir, path)
+    print(pictureDir)
+    location = static_domain + "/" + image_path + "/" + unique_name
+    fileObj = open(pictureDir, "wb")
+    for chunk in f.chunks():
+        fileObj.write(chunk)
+    fileObj.close()
     image = Image.open(f)
     return {
-        'src': loaction,
-        'width': image.width,
-        'height': image.height,
-        'name': f.name,
-        'unique_name': unique_name
+        "src": location,
+        "width": image.width,
+        "height": image.height,
+        "name": f.name,
+        "unique_name": unique_name,
     }
 
 

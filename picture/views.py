@@ -1,4 +1,3 @@
-
 from django.http import JsonResponse
 from .models import Picture
 from .serializers import PictureSerializer
@@ -18,47 +17,58 @@ class PictureViewSet(ModelViewSet):
         return self.get_paginated_response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        f = request.FILES.get('file')
-        description = request.POST.get('description', '')
+        f = request.FILES.get("file")
+        description = request.POST.get("description", "")
         imageInfo = saveImage(f)
         picture = Picture(
-            src=imageInfo['src'],
-            width=imageInfo['width'],
-            height=imageInfo['height'],
-            name=imageInfo['name'],
-            unique_name=imageInfo['unique_name'],
-            description=description
+            src=imageInfo["src"],
+            width=imageInfo["width"],
+            height=imageInfo["height"],
+            name=imageInfo["name"],
+            unique_name=imageInfo["unique_name"],
+            description=description,
         )
         picture.save()
         return JsonResponse(imageInfo, safe=False, status=200)
 
     def destroy(self, request, *args, **kwargs):
-        id = kwargs.get('id')
+        id = kwargs.get("pk")
         picture = Picture.objects.get(id=id)
         if picture is None:
-            return JsonResponse({"message": "file dose't exist"}, status=500, safe=False)
+            return JsonResponse(
+                {"message": "file dose't exist"}, status=500, safe=False
+            )
         else:
             res = picture.delete()
             try:
                 deleteImage(picture.unique_name)
-            except(FileNotFoundError):
-                return JsonResponse({"message": "can't find file"}, status=500, safe=False)
-            return JsonResponse( res, status=200, safe=False)
+            except FileNotFoundError:
+                return JsonResponse(
+                    {"message": "can't find file"}, status=500, safe=False
+                )
+            return JsonResponse(res, status=200, safe=False)
+
+    def retrieve(self, request, pk=None):
+        picture = self.get_object()
+        picture.views += 1
+        picture.save()
+        serializer = self.get_serializer(picture)
+        return JsonResponse(serializer.data)
 
     def uploads(self, request, *args, **kwargs):
-        files = request.FILES.getlist('file')
-        description = request.POST.get('description', '')
-        loactions = []
+        files = request.FILES.getlist("file")
+        description = request.POST.get("description", "")
+        locations = []
         for f in files:
             imageInfo = saveImage(f)
             picture = Picture(
-                src=imageInfo['src'],
-                width=imageInfo['width'],
-                height=imageInfo['height'],
-                name=imageInfo['name'],
-                unique_name=imageInfo['unique_name'],
-                description=description
+                src=imageInfo["src"],
+                width=imageInfo["width"],
+                height=imageInfo["height"],
+                name=imageInfo["name"],
+                unique_name=imageInfo["unique_name"],
+                description=description,
             )
             picture.save()
-            loactions.append(imageInfo)
-        return JsonResponse(loactions, safe=False)
+            locations.append(imageInfo)
+        return JsonResponse(locations, safe=False)
